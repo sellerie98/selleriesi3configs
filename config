@@ -128,9 +128,9 @@ bindsym Mod4+Shift+9 move container to workspace 9
 bindsym Mod4+Shift+0 move container to workspace 10
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume  +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -5% #decrease sound volume
+bindsym XF86AudioMute exec pactl set-sink-mute 1 toggle # mute sound
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
@@ -151,8 +151,8 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym ctrl+Mod1+XF86Launch1 exec ~/panic
 
 #Custom Screen/Power Binds
-bindsym ctrl+Mod1+b exec aplay -q ~/Sounds/logoff.wav & sleep 1 && systemctl suspend && i3lock -ni ~/lockscreen.png && aplay -q ~/Sounds/logon.wav
-bindsym ctrl+Mod1+h exec aplay -q ~/Sounds/logoff.wav & sleep 1 && systemctl hibernate && i3lock -ni ~/lockscreen.png && aplay -q ~/Sounds/logon.wav
+bindsym ctrl+Mod1+b exec aplay -q ~/Sounds/logoff.wav & sleep 1 && systemctl suspend && i3lock -ni ~/lockscreen.png -p win && aplay -q ~/Sounds/logon.wav
+bindsym ctrl+Mod1+h exec aplay -q ~/Sounds/logoff.wav & sleep 1 && systemctl hibernate && i3lock -ni ~/lockscreen.png -p win && aplay -q ~/Sounds/logon.wav
 bindsym ctrl+Mod1+o exec ~/screenoff.sh
 # reload the configuration file
 bindsym Mod4+Shift+c reload
@@ -160,12 +160,11 @@ bindsym Mod4+Shift+c reload
 bindsym Mod4+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym Mod4+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-bindsym ctrl+Mod1+l exec aplay -q ~/Sounds/logoff.wav & sleep 1 && i3lock -ni ~/lockscreen.png && aplay -q ~/Sounds/logon.wav
-bindsym ctrl+Mod1+l+o exec aplay -q ~/Sounds/logoff.wav & sleep 1 && i3lock -ni ~/lockscreen.png & sleep 1 && ~/screenoff.sh && aplay -q ~/Sounds/logon.wav
-bindsym XF86Battery aplay exec aplay -q ~/Sounds/logoff.wav & sleep 1 && i3lock -ni ~/lockscreen.png && aplay -q ~/Sounds/logon.wav
+bindsym ctrl+Mod1+l exec aplay -q ~/Sounds/logoff.wav & sleep 1 && i3lock -ni ~/lockscreen.png -p win && aplay -q ~/Sounds/logon.wav
+bindsym XF86Battery exec aplay -q ~/Sounds/logoff.wav & ~/Scripts/screenoff.sh & i3lock -ni ~/lockscreen.png && aplay -q ~/Sounds/logon.wav
 
 bindsym XF86Launch1 exec i3-sensible-terminal -e nmtui
-
+bindsym XF86Display exec arandr
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -213,6 +212,12 @@ exec --no-startup-id /usr/bin/i3-msg 'workspace 3; exec /usr/bin/i3-sensible-ter
 exec --no-startup-id /usr/bin/i3-msg 'workspace 2; exec /usr/bin/firefox'
 exec --no-startup-id /usr/bin/i3-msg 'workspace 1; exec /usr/bin/telegram'
 exec --no-startup-id feh --bg-fill ~/wallpaper.jpg
-exec --no-startup-id /usr/bin/lxpolkit
-exec --no-startup-id /usr/bin/lxsession
+#exec --no-startup-id /usr/bin/lxpolkit
+#exec --no-startup-id /usr/bin/lxsession
 exec --no-startup-id aplay -q ~/Sounds/startup.wav
+exec --no-startup-id redshift-gtk
+exec --no-startup-id lxpolkit
+exec --no-startup-id xmodmap -e "keycode  66 = Escape NoSymbol Escape"
+exec --no-startup-id usbguard-applet-qt
+#exec --no-startup-id xautolock -time 5 -locker "aplay -q ~/Sounds/logoff.wav & sleep 1 && i3lock -ni ~/lockscreen.png -p win && aplay -q ~/Sounds/logon.wav"
+#exec --no-startup-id nm-applet 
